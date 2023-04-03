@@ -1,5 +1,6 @@
+const fs = require('fs');
 const inquirer = require('inquirer');
-const renderImage = require('/lib/shapes.js');
+//const renderImage = require('./lib/shapes.js');
 
 const questions = [        
         {
@@ -20,7 +21,7 @@ const questions = [
         },
     ];
 
-function writeToFile(fileName, data) {
+function writeFileSync(fileName, data) {
     return fs.writeFileSync(fileName, data, err => {
         if (err) {
             console.log('There was an issue generating your image.');
@@ -32,8 +33,9 @@ function writeToFile(fileName, data) {
 
 function render () {
     inquirer.prompt(questions).then((inquirerResponses) => {
-    writeToFile('./examples/genLogo.svg', renderImage({...inquirerResponses}));
+    fs.appendFileSync('./examples/genLogo.svg', renderImage({...inquirerResponses}));
 });
 }
 
+writeFileSync();
 render();
