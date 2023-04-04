@@ -1,6 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-//const renderImage = require('./lib/shapes.js');
+const r = require('./lib/shapes.js');
 
 const questions = [        
         {
@@ -21,21 +21,36 @@ const questions = [
         },
     ];
 
-function writeFileSync(fileName, data) {
-    return fs.writeFileSync(fileName, data, err => {
-        if (err) {
-            console.log('There was an issue generating your image.');
-        } else {
-            console.log('Generating genLogo.svg');
-        }
-    }); 
-}
-
 function render () {
-    inquirer.prompt(questions).then((inquirerResponses) => {
-    fs.appendFileSync('./examples/genLogo.svg', renderImage({...inquirerResponses}));
+    // Prompt the user
+    inquirer.prompt(questions)
+    // Answer three questions
+    .then((inquirerResponses) => {
+    // Generate the file name
+    // Write file to examples folder
+    fs.appendFile(`./examples/${questions.initials}_${questions.color}_${questions.shape}.svg`, 
+    // Generate svg image
+    r.renderImage({...inquirerResponses}));
 });
 }
 
-writeFileSync();
+//writeFileSync(fileName, data);
 render();
+//console.log(r.renderImage('jss','blue','Triangle'));
+
+
+
+
+
+
+
+
+//function writeFileSync(fileName, data) {
+   // return fs.writeFileSync(fileName, data, err => {
+       // if (err) {
+          //  console.log('There was an issue generating your image.');
+      //  } else {
+          //  console.log(`Creating ${questions.initials}_${questions.color}_${questions.shape}.svg`);
+      //  }
+   // }); 
+//}
