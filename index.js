@@ -1,11 +1,11 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const r = require('./lib/shapes.js');
+const { renderImage } = require('./lib/shapes.js');
 
 const questions = [        
         {
             type: 'input',
-            name: 'initials',
+            name: 'text',
             message: 'Please enter no more than three characters.',
         },
         {
@@ -26,31 +26,15 @@ function render () {
     inquirer.prompt(questions)
     // Answer three questions
     .then((inquirerResponses) => {
-    // Generate the file name
     // Write file to examples folder
-    fs.appendFile(`./examples/${questions.initials}_${questions.color}_${questions.shape}.svg`, 
     // Generate svg image
-    r.renderImage({...inquirerResponses}));
+    fs.writeFile(`./examples/${questions.shape}_${questions.color}_${questions.text}.svg`, renderImage({...inquirerResponses}), err => {
+        if (err) {
+            console.log(err);
+        } else console.log('Creating image.');
+    }
+    )
 });
 }
 
-//writeFileSync(fileName, data);
 render();
-//console.log(r.renderImage('jss','blue','Triangle'));
-
-
-
-
-
-
-
-
-//function writeFileSync(fileName, data) {
-   // return fs.writeFileSync(fileName, data, err => {
-       // if (err) {
-          //  console.log('There was an issue generating your image.');
-      //  } else {
-          //  console.log(`Creating ${questions.initials}_${questions.color}_${questions.shape}.svg`);
-      //  }
-   // }); 
-//}
